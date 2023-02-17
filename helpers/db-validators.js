@@ -1,4 +1,5 @@
 const { Categoria, Role, User, Producto } = require('../models');
+const { collection } = require('../models/categoria');
 
 const esRoleValido = async( rol = '') => {
     const existeRol = await Role.findOne({ rol });
@@ -66,6 +67,14 @@ const existeNombreProducto = async ( nombre ) => {
     }
 }
 
+const coleccionesPermitidas = (coleccion = '', colecciones = []) => {
+    const incluida = colecciones.includes( coleccion);
+    if (!incluida){
+        throw new Error(`La coleccion ${ collection } no es permitida, ${ colecciones }`);
+    }
+
+    return true
+}
 
 module.exports = {
     esRoleValido,
@@ -74,5 +83,6 @@ module.exports = {
     existeCategoriaPorId,
     existeNombreCategoria,
     existeIdProducto,
-    existeNombreProducto
+    existeNombreProducto,
+    coleccionesPermitidas
 }
